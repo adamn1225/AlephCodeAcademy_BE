@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: aleph
+      POSTGRES_PASSWORD: alephpass
+      POSTGRES_DB: alephcode_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: postgres://aleph:alephpass@db:5432/alephcode_db
+
+    depends_on:
+      - db
+
+volumes:
+  db-data:
