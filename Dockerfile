@@ -12,6 +12,7 @@ COPY . ./
 
 # THIS LINE FIXES THE BUILD ERROR
 RUN go mod tidy
+RUN apt-get update && apt-get install -y postgresql-client
 
 RUN go build -o main .
 

@@ -22,6 +22,7 @@ services:
 
     depends_on:
       - db
-
+      
+    entrypoint: ["/app/wait-for-postgres.sh", "db", "./main"]
 volumes:
   db-data:

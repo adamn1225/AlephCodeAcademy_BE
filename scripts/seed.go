@@ -2,13 +2,19 @@
 package main
 
 import (
-	"fmt"
-	"log"
 	"alephcode-backend/config"
 	"alephcode-backend/models"
+	"fmt"
+	"log"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	err := godotenv.Load(".env.local")
+	if err != nil {
+		log.Fatalf("Error loading .env.local file")
+	}
 	config.ConnectDB()
 
 	// Define initial mission
@@ -28,7 +34,7 @@ func main() {
 
 	// Check if it exists
 	var existing models.Mission
-	err := config.DB.Where("title = ?", mission.Title).First(&existing).Error
+	err = config.DB.Where("title = ?", mission.Title).First(&existing).Error
 	if err == nil {
 		fmt.Println("Mission already exists, skipping seed.")
 		return
